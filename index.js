@@ -10,7 +10,6 @@ app.use(express.json());
 app.use(cors());
 
 
-// mongodb connection 
 // MongoDB connection 
 
 const uri = "mongodb+srv://rafikakhatun:Rafika786@cluster0.ybxfupc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -41,16 +40,23 @@ async function connectDB() {
 }
 connectDB()
 
+/* --- CRUD ROUTES for --- */
+
+// cretate POST API 
+app.post('/users', async(req,res)=>{
+    try{
+        const user = req.body; 
+        console.log(user)
+
+        const result = await usersCollection.insertOne(user);
+        res.status(201).json({massage:"user created", data:result});
+         
+    }catch(error){
+        res.status(500).json({massage:"Error creating user",error})
+    }
+})
 
 
-
-
-
-//test route 
-
-app.get("/",(req,res)=>{
-    res.send("server is running now")
-});
 
 
 // start server 
