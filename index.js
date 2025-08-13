@@ -66,6 +66,22 @@ app.get('/users', async (req, res) => {
   }
 });
 
+// UPDATE - Update user by ID
+app.put('/users/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updateData = req.body;
+
+    const result = await usersCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updateData }
+    );
+
+    res.json({ message: "User updated", data: result });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating user", error });
+  }
+});
 
 
 
