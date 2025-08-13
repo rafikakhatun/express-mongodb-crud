@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 const cors = require('cors')
 const port = 5070;
@@ -82,6 +82,19 @@ app.put('/users/:id', async (req, res) => {
     res.status(500).json({ message: "Error updating user", error });
   }
 });
+
+// DELETE - Delete user by ID
+app.delete('/users/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const result = await usersCollection.deleteOne({ _id: new ObjectId(id) });
+    res.json({ message: "User deleted", data: result });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting user", error });
+  }
+});
+
 
 
 
